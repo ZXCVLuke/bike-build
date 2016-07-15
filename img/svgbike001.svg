@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 2000 1236" enable-background="new 0 0 2000 1236" xml:space="preserve">
+<circle id="rear-tyre" opacity="1" fill="#000" cx="496" cy="858" r="350"/>
+<circle id="rear-rim" opacity="1" fill="#274FA0" cx="496" cy="858" r="318"/>
+
+<circle fill="#FFFFFF" cx="496" cy="858" r="293"/>
+<circle opacity="0.56" fill="#274FA0" cx="1487.5" cy="858" r="318"/>
+<circle opacity="0.56" fill="#274FA0" cx="1487.5" cy="858" r="350"/>
+<circle fill="#FFFFFF" cx="1487.5" cy="858" r="293"/>
+<circle fill="#9E2876" cx="924" cy="921" r="19"/>
+<line fill="none" stroke="blue" stroke-width="17" stroke-miterlimit="10" x1="772.4" y1="425" x2="496" y2="858"/>
+<polyline fill="none" stroke="#9E2876" stroke-width="30" stroke-miterlimit="10" points="924,921 772.4,425 763.2,395 "/>
+<polyline fill="none" stroke="#9E2876" stroke-width="46" stroke-miterlimit="10" points="1274.5,368.9 1285.8,403.9 1299.3,445.4
+	1315.7,496 "/>
+<path fill="none" stroke="#9E2876" stroke-width="17" stroke-miterlimit="10" d="M496,858"/>
+<line fill="none" stroke="#9E2876" stroke-width="22" stroke-miterlimit="10" x1="496" y1="858" x2="924" y2="921"/>
+<circle fill="#9E2876" cx="496" cy="858" r="12.5"/>
+<circle opacity="0.56" fill="#274FA0" cx="1487.5" cy="858" r="30"/>
+<circle opacity="0.56" fill="#274FA0" cx="496" cy="858" r="30"/>
+<line fill="none" stroke="#9E2876" stroke-width="30" stroke-miterlimit="10" x1="772.4" y1="425" x2="1285.8" y2="403.9"/>
+<line fill="none" stroke="#9E2876" stroke-width="30" stroke-miterlimit="10" x1="924" y1="921" x2="1299.3" y2="445.4"/>
+<path fill="#7AFF73" d="M1337.6,488.9c0,0,153.8,345.9,162.2,364.2c10.1,22.3-15.9,29.5-25.4,12.7c-20.6-36.4-64.8-125.8-89.8-171.3
+	s-56-96.5-68.5-125.5s-22.1-65.9-22.1-65.9L1337.6,488.9z"/>
+<line fill="none" stroke="#7AFF73" stroke-width="34" stroke-miterlimit="10" x1="1249.6" y1="292.5" x2="1274.5" y2="368.9"/>
+<line fill="none" stroke="#17D4FF" stroke-width="27" stroke-miterlimit="10" x1="729.4" y1="284.6" x2="763.2" y2="395"/>
+</svg>
