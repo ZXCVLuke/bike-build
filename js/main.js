@@ -31,7 +31,7 @@
   }
 
   function convertHeight () {
-    var height = newBuild.inputs.Height * 55 + 145;
+    var height = newBuild.inputs.Height * 550 + 1450;
     return height;
   }
 
@@ -54,11 +54,13 @@
 
   function setSeatHeight () {
     var h = convertHeight();
-    if (h <= 150) {
-      seatHeight = h * 0.45;
-    } else if (h > 180) {
-      seatHeight = h * 0.50;
-    } else { seatHeight = h * 0.47; }
+    if (h <= 1500) {
+      seatHeight = h * 0.45 - 100;
+    } else if (h > 1800) {
+      seatHeight = h * 0.50 - 100;
+    } else { seatHeight = h * 0.47 - 100; }
+    seatHeightX = seatHeight * Math.cos(seatTubeAngle);
+    seatHeightY = seatHeight * Math.sin(seatTubeAngle);
   }
 
 
@@ -76,6 +78,9 @@ setSeatHeight();
 
 // 73deg in radians
 var seatTubeAngle = 1.27409
+
+var seatHeightX;
+var seatHeightY;
 
 var bottomBracketOriginX = 913;
 var bottomBracketOriginY = 905;
@@ -319,17 +324,15 @@ Snap.load("img/saddle.svg", function (f) {
   $('#bik-HeightInput-Control').on("input", function() {
       // Capture input
       var i = getValue ($('#bik-HeightInput-Control'));
-      console.log(i);
       // Trigger feedback
 
       // Update input
       updateHeight(i);
-      console.log(newBuild.inputs.Height)
       // Recalculate specs
       setSeatHeight();
-      console.log(seatHeight)
       // Redraw SVG
-      $('#saddle').attr('x',390);
+      $('#saddle').attr('y', bottomBracketOriginY - seatHeightY - 10).attr('x', bottomBracketOriginX - seatHeightX - 108);
+
 
 
   });
