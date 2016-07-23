@@ -22,14 +22,43 @@
     return i;
   }
 
+  function updateDistance (val) {
+    riderModel.distance.index = val;
+    riderModel.distance.calcMeasure();
+  }
+
   function updateSurface (val) {
-    newBuild.inputs.Surface = val;
+    riderModel.surface.index = val;
+    riderModel.surface.defName();
+  }
+
+  function updateElevation (val) {
+    riderModel.elevation.index = val;
+    riderModel.elevation.defName();
+  }
+
+  function updateLuggage (val) {
+    riderModel.luggage.index = val;
+    riderModel.luggage.defName();
+  }
+
+  function updateDisposition (val) {
+    riderModel.disposition.index = val;
+    riderModel.disposition.defName();
   }
 
   function updateHeight (val) {
-    newBuild.inputs.Height = val;
+    riderModel.height.index = val;
+    riderModel.height.calcMeasure();
+    riderModel.height.calcInseam();
   }
 
+  function updateWeight (val) {
+    riderModel.weight.index = val;
+    riderModel.weight.calcMeasure();
+  }
+
+  // to be replaced
   function convertHeight () {
     var height = newBuild.inputs.Height * 550 + 1450;
     return height;
@@ -39,18 +68,6 @@
 
   // UPDATE SPEC FUNCTIONS -----------------------------------------------------
 
-  // tyreSize is determined by Surface (70%), Luggage (20%) and Weight (10%)
-  function setTyreSize () {
-    tyreSize =  ( newBuild.inputs.Surface * 0.7 +
-                  newBuild.inputs.Luggage * 0.2 +
-                  newBuild.inputs.Weight  * 0.1 ) * 52 + 23;
-  }
-
-  //  wheelSize is determined by Saddle Height, Surface, Disposition and tyre size
-  function setWheelSize () {
-    // saddle height = approx 0.47 * height
-
-  }
 
   function setSeatHeight () {
     var h = convertHeight();
@@ -70,8 +87,7 @@ var newBuild = new BikeBuild();
 
 
 // default specs
-var tyreSize;
-setTyreSize();
+var tyreSize = 35;
 
 var seatHeight;
 setSeatHeight();
@@ -93,22 +109,20 @@ var tyreTreadSpacing = "5, 5";
 // default svg attributes
 var tyreColour = "#222";
 var rimColour = "#000";
-var frontWheelX = 1488;
-var rearWheelX = 500;
-var wheelsY = 800;
 
 // creates the drawing surface
 var s = Snap("#svg");
 
+
 // draw front wheel
-var tyre1 = s.circle(frontWheelX,wheelsY,0);
-var tyre1MaskInner = s.circle(frontWheelX,wheelsY,0);
-var tyre1MaskOuter = s.circle(frontWheelX,wheelsY,0);
+var tyre1 = s.circle(bikeModel.wheels.frontWheel.x,bikeModel.wheels.y,0);
+var tyre1MaskInner = s.circle(bikeModel.wheels.frontWheel.x,bikeModel.wheels.y,0);
+var tyre1MaskOuter = s.circle(bikeModel.wheels.frontWheel.x,bikeModel.wheels.y,0);
 var tyre1Mask = s.group(tyre1MaskOuter, tyre1MaskInner);
-var tyre1Tread = s.circle(frontWheelX,wheelsY,0);
-var rim1 = s.circle(frontWheelX,wheelsY,0);
-var rim1MaskInner = s.circle(frontWheelX,wheelsY,0);
-var rim1MaskOuter = s.circle(frontWheelX,wheelsY,0);
+var tyre1Tread = s.circle(bikeModel.wheels.frontWheel.x,bikeModel.wheels.y,0);
+var rim1 = s.circle(bikeModel.wheels.frontWheel.x,bikeModel.wheels.y,0);
+var rim1MaskInner = s.circle(bikeModel.wheels.frontWheel.x,bikeModel.wheels.y,0);
+var rim1MaskOuter = s.circle(bikeModel.wheels.frontWheel.x,bikeModel.wheels.y,0);
 var rim1Mask = s.group(rim1MaskOuter, rim1MaskInner);
 
 var frontWheel = s.group( tyre1,
@@ -119,16 +133,16 @@ var frontWheel = s.group( tyre1,
                         );
 
 // draw rear wheel
-var tyre2 = s.circle(rearWheelX,wheelsY,0);
-var tyre2MaskInner = s.circle(rearWheelX,wheelsY,0);
-var tyre2MaskOuter = s.circle(rearWheelX,wheelsY,0);
+var tyre2 = s.circle(bikeModel.wheels.rearWheel.x,bikeModel.wheels.y,0);
+var tyre2MaskInner = s.circle(bikeModel.wheels.rearWheel.x,bikeModel.wheels.y,0);
+var tyre2MaskOuter = s.circle(bikeModel.wheels.rearWheel.x,bikeModel.wheels.y,0);
 var tyre2Mask = s.group(tyre2MaskOuter, tyre2MaskInner);
 
-var tyre2Tread = s.circle(rearWheelX,wheelsY,0);
+var tyre2Tread = s.circle(bikeModel.wheels.rearWheel.x,bikeModel.wheels.y,0);
 
-var rim2 = s.circle(rearWheelX,wheelsY,0);
-var rim2MaskInner = s.circle(rearWheelX,wheelsY,0);
-var rim2MaskOuter = s.circle(rearWheelX,wheelsY,0);
+var rim2 = s.circle(bikeModel.wheels.rearWheel.x,bikeModel.wheels.y,0);
+var rim2MaskInner = s.circle(bikeModel.wheels.rearWheel.x,bikeModel.wheels.y,0);
+var rim2MaskOuter = s.circle(bikeModel.wheels.rearWheel.x,bikeModel.wheels.y,0);
 var rim2Mask = s.group(rim2MaskOuter, rim2MaskInner);
 
 var rearWheel = s.group(  tyre2,
@@ -296,7 +310,6 @@ Snap.load("img/handlebars-drop.svg", function (f) {
 });
 
 Snap.load("img/saddle.svg", function (f) {
-
   s.append(f);
 });
 
@@ -316,9 +329,9 @@ Snap.load("img/saddle.svg", function (f) {
       // Update input
       updateSurface(i);
       // Recalculate specs
-      setTyreSize();
+      bikeModel.wheels.calcTyreSize();
       // Redraw SVG
-      updateWheelAndTyre(tyreSize, wheelSize);
+      updateWheelAndTyre(bikeModel.wheels.tyre.size, bikeModel.wheels.size);
   });
 
   $('#bik-HeightInput-Control').on("input", function() {

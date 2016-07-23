@@ -7,10 +7,10 @@ var riderModel = {
     }
   },
   surface : {
-    index : 0.2
-    name : "city roads"
+    index : 0.2,
+    name : "city roads",
     defName : function () {
-      var i = parseInt(this.index * 10)
+      var i = parseInt(this.index * 10);
       switch (i) {
         case 0 : this.name = "super-smooth indoor tracks";
         break;
@@ -33,18 +33,96 @@ var riderModel = {
         case 9 : this.name = "rough trails with jumps and drops";
         break;
         case 10 : this.name = "extreme obstacles";
+        break;
         default : console.log("Something's busted...");
       }
     }
   },
   elevation : {
-    index : 0.2
+    index : 0.2,
+    name : "a few small hills",
+    defName : function () {
+      var i = parseInt(this.index * 10);
+      switch (i) {
+        case 0 : this.name = "flat as a pancake";
+        break;
+        case 1 :
+        case 2 : this.name = "a few small hills";
+        break;
+        case 3 :
+        case 4 : this.name = "rolling hills";
+        break;
+        case 5 :
+        case 6 : this.name = "backcountry climbs";
+        break;
+        case 7 :
+        case 8 : this.name = "steep mountain passes";
+        break;
+        case 9 :
+        case 10 : this.name = "mount everest";
+        break;
+        default : console.log("Something's busted...");
+      }
+    }
   },
   luggage : {
-    index : 0.2
+    index : 0.2,
+    name : "1kg - jacket and tools",
+    defName : function () {
+      var i = parseInt(this.index * 10);
+      switch (i) {
+        case 0 : this.name = "0kg - empty pockets";
+        break;
+        case 1 : this.name = "0.5kg - tools and a patch kit";
+        break;
+        case 2 : this.name = "1kg - jacket and tools";
+        break;
+        case 3 : this.name = "2kg - jacket, tools, snacks";
+        break;
+        case 4 : this.name = "3kg - tiny backpack";
+        break;
+        case 5 : this.name = "4kg - small backpack";
+        break;
+        case 6 : this.name = "5kg - laptop and a change of clothes";
+        break;
+        case 7 : this.name = "7kg - superlight overnight kit";
+        break;
+        case 8 : this.name = "10kg - lightweight touring kit";
+        break;
+        case 9 : this.name = "20kg - heavy touring kit";
+        break;
+        case 10 : this.name = "30kg - four panniers and the kitchen sink";
+        break;
+        default : console.log("Something's busted...");
+      }
+    }
   },
   disposition : {
-    index : 0.2
+    index : 0.2,
+    name : "",
+    defName : function () {
+      var i = parseInt(this.index * 10);
+      switch (i) {
+        case 0 : this.name = "super casual";
+        break;
+        case 1 :
+        case 2 : this.name = "relaxed";
+        break;
+        case 3 :
+        case 4 : this.name = "excitable";
+        break;
+        case 5 :
+        case 6 : this.name = "spirited";
+        break;
+        case 7 :
+        case 8 : this.name = "competitive";
+        break;
+        case 9 :
+        case 10 : this.name = "permanent race face";
+        break;
+        default : console.log("Something's busted...");
+      }
+    }
   },
   height : {
     index : 0.5,
@@ -71,7 +149,9 @@ var riderModel = {
   }
 }
 
- var bikeModel = {
+
+
+var bikeModel = {
 
   baseline : 1146,
 
@@ -80,7 +160,7 @@ var riderModel = {
     detType : function () {
       var s = riderModel.surface.index;
       var d = riderModel.distance.index;
-      if ( if (s >= 0.7 && d >= 0.9){
+      if (s >= 0.7 && d >= 0.9){
         return "multiposition flats";
       } else if (s >= 0.7 && d < 0.9){
         return "wide flats";
@@ -119,7 +199,7 @@ var riderModel = {
     },
 
     seatTube : {
-      postExt : 150       // mm to rails
+      postExt : 150,       // mm to rails
       length : 549,       // mm, c to t
       angle : 1.27409,    // radians
       // x1 and y1 are bb coordinates
@@ -143,9 +223,6 @@ var riderModel = {
 
   wheels : {
     y : 800,
-    calcY : function () {
-      this.y = bikeModel.baseline - (wheels.size / 2) - wheels.tyre.size;
-    },
     size : 622,
     frontWheel : {
       x : 1488
@@ -162,6 +239,14 @@ var riderModel = {
       treadSize : 2,
       treadSpacing : "5, 5",
       colour : "#222"
+    },
+    calcY : function () {
+      this.y = bikeModel.baseline - (wheels.size / 2) - wheels.tyre.size;
+    },
+    calcTyreSize : function () {
+      this.tyre.size = ( riderModel.surface.index * 0.7 +
+                         riderModel.luggage.index * 0.2 +
+                         riderModel.weight.index * 0.1 ) * 52 + 23;
     }
   }
 }
