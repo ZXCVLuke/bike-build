@@ -133,6 +133,13 @@ body {
 .bik .bik-PageControls .bik-PageControls-Pagination {
   padding: 0.5em;
 }
+.bik .bik-PageControls .bik-PageControls-Next button {
+  color: white;
+  background-color: transparent;
+  border-color: white;
+  border: 2px solid white;
+  padding: 10px 15px;
+}
 .bik .bik-PageControls ul {
   list-style-type: none;
   margin: 0;
@@ -140,6 +147,18 @@ body {
 }
 .bik .bik-PageControls ul li {
   display: inline-block;
+}
+.bik .bik-PageControls ul li button {
+  width: 0.5em;
+  height: 1em;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 50%;
+  margin: 0.3em;
+  color: transparent;
+}
+.bik .bik-PageControls ul li button:focus {
+  outline: none;
 }
 /* ==========================================================================
    Helper classes

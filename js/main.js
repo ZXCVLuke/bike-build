@@ -1,102 +1,9 @@
-
-  // Constructor function
-  function BikeBuild (emailAddress){
-    this.email = emailAddress;
-    this.inputs = {
-      Distance : 0.2,
-      Surface : 0.2,
-      Elevation : 0.2,
-      Luggage : 0.2,
-      Disposition : 0.2,
-      Height : 0.5,
-      Weight : 0.5,
-      WeightMeasurement : this.Weight * 70 + 45
-    }
-  }
-
-  // UPDATE INPUT FUNCTIONS ----------------------------------------------------
-
-  // gets input from and returns it for use elsewhere
-  function getValue (el) {
-    var i = (el).val();
-    return i;
-  }
-
-  function updateDistance (val) {
-    riderModel.distance.index = val;
-    riderModel.distance.calcMeasure();
-  }
-
-  function updateSurface (val) {
-    riderModel.surface.index = val;
-    riderModel.surface.defName();
-  }
-
-  function updateElevation (val) {
-    riderModel.elevation.index = val;
-    riderModel.elevation.defName();
-  }
-
-  function updateLuggage (val) {
-    riderModel.luggage.index = val;
-    riderModel.luggage.defName();
-  }
-
-  function updateDisposition (val) {
-    riderModel.disposition.index = val;
-    riderModel.disposition.defName();
-  }
-
-  function updateHeight (val) {
-    riderModel.height.index = val;
-    riderModel.height.calcMeasure();
-    riderModel.height.calcInseam();
-  }
-
-  function updateWeight (val) {
-    riderModel.weight.index = val;
-    riderModel.weight.calcMeasure();
-  }
-
-  // to be replaced
-  function convertHeight () {
-    var height = newBuild.inputs.Height * 550 + 1450;
-    return height;
-  }
-
-
-
-  // UPDATE SPEC FUNCTIONS -----------------------------------------------------
-
-
-  function setSeatHeight () {
-    var h = convertHeight();
-    if (h <= 1500) {
-      seatHeight = h * 0.45 - 100;
-    } else if (h > 1800) {
-      seatHeight = h * 0.50 - 100;
-    } else { seatHeight = h * 0.47 - 100; }
-    seatHeightX = seatHeight * Math.cos(seatTubeAngle);
-    seatHeightY = seatHeight * Math.sin(seatTubeAngle);
-  }
-
-
-
-// New build from Constructor function
-var newBuild = new BikeBuild();
-
-
 // default specs
 var tyreSize = 35;
 
-var seatHeight;
-setSeatHeight();
 
 // 73deg in radians
 var seatTubeAngle = 1.27409
-
-var seatHeightX;
-var seatHeightY;
 
 var bottomBracketOriginX = 913;
 var bottomBracketOriginY = 905;
@@ -260,50 +167,12 @@ pagination('Disposition');
 pagination('Height');
 pagination('Weight');
 
-
-
-
-
-  // triggers function when there is an input
-  $("#slider1").on("input", function() {
-    // calls getInput function on #slider1
-    var i = getValue ($("#slider1"));
-    // changes the tyreSize variable based on the slider input
-    tyreSize = i * 52 + 23;
-    // updates the svg
-    updateWheelAndTyre(tyreSize, wheelSize);
-  });
-
-  // triggers function when there is an input
-  $("#slider2").on("input", function() {
-    // calls getInput function on #slider1
-    var t = getValue ($("#slider2"));
-    // changes the tyreSize variable based on the slider input
-    tyreTreadSize = t * 14;
-
-    if ( t >= 0 && t < 0.1 ){
-      tyreTreadSpacing = "0, 0"
-    } else if ( t >= 0.1 && t < 0.4 ){
-      tyreTreadSpacing = "5, 5"
-    } else if ( t >= 0.4 && t < 0.6){
-      tyreTreadSpacing = "8, 8"
-    } else if ( t >= 0.6 && t < 0.8){
-      tyreTreadSpacing = "12, 12"
-    } else { tyreTreadSpacing = "15, 15" };
-
-    // updates the svg
-    updateTyreTread(tyreTreadSize, tyreTreadSpacing);
-  });
-
-  // triggers function when there is an input
-  $("#radio1").on("change", function() {
-    // calls getInput function on #radio1
-    var i = getValue ($("input[type='radio'][name='wheel-size']:checked"));
-    // changes the wheelSize variable based on the radio input
-    wheelSize = i;
-    // updates the svg, hopefully...
-    updateWheelAndTyre(tyreSize, wheelSize);
-  });
+$('.bik-PageControls-Next').on('click', function(){
+  var v = $('.visible');
+  var next = $('.visible').next();
+  next.addClass('visible').removeClass('hidden');
+  v.addClass('hidden').removeClass('visible');
+})
 
 Snap.load("img/handlebars-drop.svg", function (f) {
   s.append(f);
@@ -311,52 +180,106 @@ Snap.load("img/handlebars-drop.svg", function (f) {
 
 Snap.load("img/saddle.svg", function (f) {
   s.append(f);
+
 });
 
 
   $('#bik-DistanceInput-Control').on("input", function() {
-      var i = getValue ($('#bik-DistanceInput-Control')) ;
-      var iDist = parseInt(Math.pow(85,i) + i * 115);
-      // Input Feedback
-      $('#bik-DistanceInput-Counter').text(iDist);
+      // Capture input
+      var i = getValue ($('#bik-DistanceInput-Control'));
+      // Update riderModel
+      riderModel.distance.update(i);
+      // Trigger feedback
+      $('#bik-DistanceInput-Counter').text(riderModel.distance.measure);
+      // Update bikeModel
+      bikeModel.handlebars.update();
+      // Redraw SVG
+      $('#handlebars-drop').attr('y', bikeModel.handlebars.y);
   });
 
   $('#bik-SurfaceInput-Control').on("input", function() {
       // Capture input
       var i = getValue ($('#bik-SurfaceInput-Control'));
+      // Update riderModel
+      riderModel.surface.update(i);
       // Trigger feedback
-
-      // Update input
-      updateSurface(i);
-      // Recalculate specs
+      $('#bik-SurfaceInput-Text').text(riderModel.surface.name);
+      // Update bikeModel
       bikeModel.wheels.calcTyreSize();
       // Redraw SVG
       updateWheelAndTyre(bikeModel.wheels.tyre.size, bikeModel.wheels.size);
   });
 
+  $('#bik-ElevationInput-Control').on("input", function() {
+      // Capture input
+      var i = getValue ($('#bik-ElevationInput-Control'));
+      // Update riderModel
+      riderModel.elevation.update(i);
+      // Trigger feedback
+      $('#bik-ElevationInput-Text').text(riderModel.elevation.name);
+      // Update bikeModel
+      // Redraw SVG
+  });
+
+  $('#bik-LuggageInput-Control').on("input", function() {
+      // Capture input
+      var i = getValue ($('#bik-LuggageInput-Control'));
+      // Update riderModel
+      riderModel.luggage.update(i);
+      // Trigger feedback
+      $('#bik-LuggageInput-Text').text(riderModel.luggage.name);
+      // Update bikeModel
+      // Redraw SVG
+  });
+
+  $('#bik-DispositionInput-Control').on("input", function() {
+      // Capture input
+      var i = getValue ($('#bik-DispositionInput-Control'));
+      // Update riderModel
+      riderModel.disposition.update(i);
+      // Trigger feedback
+      $('#bik-DispositionInput-Text').text(riderModel.disposition.name);
+      // Update bikeModel
+      bikeModel.handlebars.update();
+      // Redraw SVG
+      $('#handlebars-drop').attr('y', bikeModel.handlebars.y);
+  });
+
+  $('#bik-WeightInput-Control').on("input", function() {
+      // Capture input
+      var i = getValue ($('#bik-WeightInput-Control'));
+      // Update riderModel
+      riderModel.weight.update(i);
+      // Trigger feedback
+      $('#bik-WeightInput-Counter').text(riderModel.weight.measure);
+      // Update bikeModel
+      // Redraw SVG
+  });
+
   $('#bik-HeightInput-Control').on("input", function() {
       // Capture input
       var i = getValue ($('#bik-HeightInput-Control'));
+      // Update riderModel
+      riderModel.height.update(i);
       // Trigger feedback
-
-      // Update input
-      updateHeight(i);
-      // Recalculate specs
-      setSeatHeight();
+      $('#bik-HeightInput-Counter').text(parseInt(riderModel.height.measure / 10));
+      // Update bikeModel
+      bikeModel.seat.update();
+      bikeModel.handlebars.update();
       // Redraw SVG
-      $('#saddle').attr('y', bottomBracketOriginY - seatHeightY - 10).attr('x', bottomBracketOriginX - seatHeightX - 108);
-
-
-
+      $('#saddle').attr('x', bikeModel.seat.x - 108).attr('y', bikeModel.seat.y - 10); // origin at (100,10)
+      $('#handlebars-drop').attr('y', bikeModel.handlebars.y);
   });
-
-
-
 });
 
 
 // FUNCTIONS
 
+// gets input from and returns it for use elsewhere
+function getValue (el) {
+  var i = (el).val();
+  return i;
+}
 
 function updateTyreTread (tyreTreadSize, tyreTreadSpacing) {
   tyre1Tread.attr({
@@ -388,6 +311,6 @@ function updateWheelAndTyre (tyreSize, wheelSize) {
 
 function pagination (page) {
 $('#bik-'+ page +'PageButton').on('click', function(){
-  $('#bik-Question-'+ page).show();
-  $('#bik-Question-'+ page).siblings().hide();
+  $('#bik-Question-'+ page).removeClass('hidden').addClass('visible');
+  $('#bik-Question-'+ page).siblings().addClass('hidden').removeClass('visible');
 })}

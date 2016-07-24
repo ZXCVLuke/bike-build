@@ -50,7 +50,7 @@
         </div>
 
         <div class="bik-Question-Container">
-          <section id="bik-Question-Distance" class="bik-Question">
+          <section id="bik-Question-Distance" class="bik-Question visible">
             <h1>Distance</h1>
             <p>What's the average distance you're likely to ride in a day?</p>
             <div>
@@ -60,34 +60,64 @@
             </div>
             <input id="bik-DistanceInput-Control" type="range" min="0" max="1" step="0.01" value="0.2" />
           </section>
-          <section id="bik-Question-Surface" class="bik-Question" style="display: none;">
+          <section id="bik-Question-Surface" class="bik-Question hidden">
             <h1>Surface</h1>
-            <p>What sort of roads or trails will you spend most of your time on?  </p>
+            <p>What sort of roads or trails will you spend most of your time on?</p>
+            <div>
+              <p class="bik-SurfaceInput-feedback">
+                <span id="bik-SurfaceInput-Text">city roads</span>
+              </p>
+            </div>
             <input id="bik-SurfaceInput-Control" type="range" min="0" max="1" step="0.01" value="0.2" />
           </section>
-          <section id="bik-Question-Elevation" class="bik-Question" style="display: none;">
+          <section id="bik-Question-Elevation" class="bik-Question hidden">
             <h1>Elevation</h1>
             <p>How steep is it where you ride?</p>
+            <div>
+              <p class="bik-ElevationInput-feedback">
+                <span id="bik-ElevationInput-Text">a few small hills</span>
+              </p>
+            </div>
             <input id="bik-ElevationInput-Control" type="range" min="0" max="1" step="0.01" value="0.2" />
           </section>
-          <section id="bik-Question-Luggage" class="bik-Question" style="display: none;">
+          <section id="bik-Question-Luggage" class="bik-Question hidden">
             <h1>Luggage</h1>
             <p>How much stuff are you likely to carry?</p>
+            <div>
+              <p class="bik-LuggageInput-feedback">
+                <span id="bik-LuggageInput-Text">1kg - jacket and tools</span>
+              </p>
+            </div>
             <input id="bik-LuggageInput-Control" type="range" min="0" max="1" step="0.01" value="0.2" />
           </section>
-          <section id="bik-Question-Disposition" class="bik-Question" style="display: none;">
+          <section id="bik-Question-Disposition" class="bik-Question hidden">
             <h1>Disposition</h1>
             <p>What's your disposition on a bike, competitive or cruisy?</p>
+            <div>
+              <p class="bik-DispositionInput-feedback">
+                <span id="bik-DispositionInput-Text">relaxed</span>
+              </p>
+            </div>
             <input id="bik-DispositionInput-Control" type="range" min="0" max="1" step="0.01" value="0.2" />
           </section>
-          <section id="bik-Question-Height" class="bik-Question" style="display: none;">
+          <section id="bik-Question-Height" class="bik-Question hidden">
             <h1>Height</h1>
             <p>How tall are you?</p>
+            <div>
+              <p class="bik-HeightInput-Feedback">
+                <span id="bik-HeightInput-Counter">172</span> cm
+              </p>
+            </div>
             <input id="bik-HeightInput-Control" type="range" min="0" max="1" step="0.01" value="0.5"/>
           </section>
-          <section id="bik-Question-Weight" class="bik-Question" style="display: none;">
+          <section id="bik-Question-Weight" class="bik-Question hidden">
             <h1>Weight</h1>
             <p>What do you weigh?</p>
+            <div>
+              <p class="bik-WeightInput-Feedback">
+                <span id="bik-WeightInput-Counter">80</span> kg
+              </p>
+            </div>
             <input id="bik-WeightInput-Control" type="range" min="0" max="1" step="0.01" value="0.5"/>
           </section>
         </div>
@@ -118,7 +148,8 @@
       <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
       <script src="js/plugins.js"></script>
       <script src="js/vendor/snap.svg.js"></script>
-      <script src="js/models.js"></script>
+      <script src="js/ridermodel.js"></script>
+      <script src="js/bikemodel.js"></script>
       <script src="js/main.js"></script>
 
 
