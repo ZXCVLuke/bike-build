@@ -106,21 +106,23 @@ var bikeModel = {
     },
     rim : {
       profile : 30,
-      colour : "#000"
     },
     tyre : {
       size : 35,
       treadSize : 2,
       treadSpacing : "5, 5",
-      colour : "#222"
+      calcSize : function () {
+        this.size = ( riderModel.surface.index * 0.7 +
+                      riderModel.luggage.index * 0.2 +
+                      riderModel.weight.index * 0.1 ) * 52 + 23;
+      },
+      calcTread : function () {
+        this.treadSize = riderModel.surface.index * 5;
+        if (this.treadSize >= 3) { this.treadSpacing = "10, 10"};
+      }
     },
     calcY : function () {
       this.y = bikeModel.baseline - (wheels.size / 2) - wheels.tyre.size;
-    },
-    calcTyreSize : function () {
-      this.tyre.size = ( riderModel.surface.index * 0.7 +
-                         riderModel.luggage.index * 0.2 +
-                         riderModel.weight.index * 0.1 ) * 52 + 23;
     }
   }
 }
